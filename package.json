@@ -1,0 +1,16 @@
+{
+  "name": "aeva",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cypress": "^6.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "cy-open": "cypress open",
+    "cy:run": "cypress run"
+  },
+  "author": "rade",
+  "license": "ISC"
+}
