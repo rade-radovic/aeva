@@ -28,6 +28,14 @@ class ContactSettings {
         return cy.get("button[type='submit']")
     }
 
+    get deleteField() {
+        return cy.get("svg[data-icon='delete']").eq(1)
+    }
+
+    get FieldListItem() {
+        return cy.get("li[class='ant-list-item ant-list-item-no-flex']")
+    }
+
     newCustomField(fieldName){
         this.customField.click()
         this.text.click()
@@ -43,6 +51,13 @@ class ContactSettings {
         this.fieldTitle.type(fieldTitle)
         this.submit.click()
     }
+
+    movePiece (number, x, y) {
+        cy.get("li[class='ant-list-item ant-list-item-no-flex']").eq(number)
+        .trigger('mousedown', { which: 1 })
+        .trigger('mousemove', { clientX: x, clientY: y })
+        .trigger('mouseup', { force: true })
+      }
 
 }
 
