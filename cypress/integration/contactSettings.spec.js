@@ -4,26 +4,26 @@ import { authLogin } from '../page_objects/login_object'
 import { header } from '../page_objects/header.object'
 import { contactSettings } from '../page_objects/contact_settings_object'
 
+const Data = require('../fixtures/data.json')
+
 
 
 describe('Contact Settings', () => {
 
     beforeEach("Login", () => {
         cy.visit('/')
-        authLogin.login("space@tet.com", "test1234!T")
+        authLogin.login(Data.Login.Email, Data.Login.Password)
     })
 
     it('Create a custom field', () =>{
-        let fieldName = "New Field";
         cy.intercept('POST', 'https://aeva-api.vivifyideas.com/api/v1/contact-settings/', 
         (req) =>{
         }).as('succesfullNewCustomField')
-        header.contactSettingsButton.click({force : true})
-        contactSettings.newCustomField(fieldName)
+        contactSettings.newCustomField(Data.ContactSettings.TextFieldName)
         cy.wait('@succesfullNewCustomField').then((interception) => {
             var fieldExist = false;
             for(var i = 0; i < interception.response.body.length; i++){
-                if(interception.response.body[i].name === fieldName){
+                if(interception.response.body[i].name === Data.ContactSettings.TextFieldName){
                     fieldExist = true;
                 }
             }
@@ -42,13 +42,10 @@ describe('Contact Settings', () => {
     })
 
     it('Create a custom dropdown field', () =>{
-        var fieldName = "New Dropdown Field";
-        let fieldTitle = "Option1"
         cy.intercept('POST', 'https://aeva-api.vivifyideas.com/api/v1/contact-settings/', 
         (req) =>{
         }).as('succesfullNewCustomField')
-        header.contactSettingsButton.click({force : true})
-        contactSettings.newDropdownField(fieldName, fieldTitle)
+        contactSettings.newDropdownField(Data.ContactSettings.DropdownFieldName, Data.ContactSettings.FieldTitle)
         cy.wait('@succesfullNewCustomField').then((interception) => {
             var fieldExist = false;
             for(var i = 0; i < interception.response.body.length; i++){
@@ -60,16 +57,16 @@ describe('Contact Settings', () => {
         })
     })
 
-    it('Delete the custom field', () => {
+    it.only('Delete the custom field', () => {
         header.contactSettingsButton.click({force : true})
         contactSettings.deleteField.click()
         //nisam uhvatio dugme
         //failed because this element is detached from the DOM.
     })
 
-    it.only('Move Field from second to first position', () => {
+    it('Move Field from second to first position', () => {
         header.contactSettingsButton.click({force : true})
-        contactSettings.movePiece(1, 60, 0)
+        contactSettings.movePiece(1, 0, 60)
         //failed because this element is detached from the DOM.
     })
 

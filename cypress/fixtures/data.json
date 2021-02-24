@@ -1,0 +1,19 @@
+{
+    "Login" : {
+        "Email" : "space@tet.com",
+        "Password" : "test1234!T",
+        "WrongEmail" : "wronguser@tets.com",
+        "WrongPassword" : "tetstetst",
+        "InvalidEmal" : "invalidmail"
+    },
+    "ContactSettings" : {
+        "TextFieldName" : "New Text Field",
+        "DropdownFieldName" : "New Dropdown Field",
+        "FieldTitle" : "Option1"
+    },
+
+    "NewContact" : {
+        "Name" : "Contact Contactic"
+
+    }
+}

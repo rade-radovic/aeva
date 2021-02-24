@@ -1,5 +1,9 @@
 class ContactSettings {
 
+    get contactSettingsButton(){
+        return cy.get("button[class='ant-btn ant-btn-primary ant-btn-icon-only ant-btn-background-ghost']").eq(1)
+    }
+
     get customField() {
         return cy.get("a[href='#']")
     }
@@ -29,7 +33,7 @@ class ContactSettings {
     }
 
     get deleteField() {
-        return cy.get("svg[data-icon='delete']").eq(1)
+        return cy.get("ul > span > svg[data-icon='delete']")
     }
 
     get FieldListItem() {
@@ -37,6 +41,7 @@ class ContactSettings {
     }
 
     newCustomField(fieldName){
+        this.contactSettingsButton.click({force : true})
         this.customField.click()
         this.text.click()
         this.fieldName.type(fieldName)
@@ -44,6 +49,7 @@ class ContactSettings {
     }
 
     newDropdownField(fieldName, fieldTitle){
+        this.contactSettingsButton.click({force : true})
         this.customField.click()
         this.dropdown.click()
         this.fieldName.type(fieldName)
