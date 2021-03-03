@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 import { authLogin } from '../page_objects/login_object'
-import { header } from '../page_objects/header.object'
+import { contacts } from '../page_objects/contacts.object'
 
 const Data = require('../fixtures/data.json')
 
@@ -16,7 +16,7 @@ describe('Login', () => {
         (req) =>{
         }).as('succesfullLogin')
         authLogin.login(Data.Login.Email, Data.Login.Password)
-        header.contactSettingsButton.should('be.visible')
+        contacts.contactSettingsButton.should('be.visible')
         cy.wait('@succesfullLogin').then((interception) => {
             expect(interception.response.statusCode).to.equal(200);
             expect(localStorage.getItem('token')).to.have.length.of.at.least(50)
@@ -80,22 +80,7 @@ describe('Login', () => {
         authLogin.emptyEmailValidation.should('have.text', 'Email Address is required')
     })
 
-    // it('sql injection 105', () => {
-    //     authLogin.login("105 OR 1=1", "test1234!Y")
-    //     authLogin.loginTitle.should('be.visible')   //nisam siguran za asertaciju  
-    // })
-
-    // it.only('SQL injection 105', () => {
-    //     cy.request('POST', 'https://aeva-api.vivifyideas.com/api/v1/login/', {
-    //         email:"105 OR 1=1",
-    //         password: Data.Login.Password,
-    //         failOnStatusCode: false 
-    //     }).its('body').then((responseBody) => {
-    //         console.log(responseBody)
-    //     })
-    // })
-
-    it.only('SQL injection 105', () => {
+    it('SQL injection 105', () => {
         cy.request({
             method: 'POST',
             url: 'https://aeva-api.vivifyideas.com/api/v1/login/',
@@ -111,14 +96,12 @@ describe('Login', () => {
         })
     })
 
-
-
     it('logout', ()=> {
         cy.intercept('POST', ' https://aeva-api.vivifyideas.com/api/v1/logout/', 
         (req) =>{
         }).as('succesfullLogout')
         authLogin.login(Data.Login.Email, Data.Login.Password)
-        header.logoutButton.click()
+        contacts.logoutButton.click()
         authLogin.loginTitle.should('be.visible')
         cy.wait('@succesfullLogout').then((interception) => {
             expect(interception.response.statusCode).to.equal(204);

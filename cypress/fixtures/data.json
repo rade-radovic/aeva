@@ -13,7 +13,12 @@
     },
 
     "NewContact" : {
-        "Name" : "Contact Contactic"
+        "Name" : "Contact Contactic",
+        "Phone" : "+13059457093",
+        "Email" : "cycontact@bridge.com",
+        "ContactOwner" : "Owner"
+
+
 
     }
 }

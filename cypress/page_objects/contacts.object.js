@@ -1,4 +1,4 @@
-class Header {
+class Contacts {
     get contacts(){
         return cy.get("a[href='/dashboard/contacts']")
     }
@@ -18,7 +18,7 @@ class Header {
         return cy.get("button[class='ant-btn ant-btn-primary ant-btn-icon-only ant-btn-background-ghost']").eq(0)
     }
     get newContactButton(){
-        return cy.get("button[class='ant-btn ant-btn-primary ant-btn-icon-only ant-btn-background-ghost']").eq(3)
+        return cy.get(".ant-col.ant-col-10.ant-col-offset-6 > button:nth-of-type(4)")
     }
     get logoutButton(){
         return cy.get("li[class='ant-menu-item ant-menu-item-only-child']").eq(3)
@@ -27,6 +27,7 @@ class Header {
     logout(){
         this.logoutButton.click()
     }
+
 }
 
-export const header = new Header()
+export const contacts = new Contacts()

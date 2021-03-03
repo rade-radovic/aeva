@@ -5,9 +5,13 @@
   "main": "index.js",
   "dependencies": {
     "Faker": "^0.7.2",
-    "cypress": "^6.5.0"
+    "cypress": "^6.5.0",
+    "cypress-enter-plugin": "^1.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cypress-pipe": "^2.0.0",
+    "cypress-plugin-tab": "^1.0.5"
+  },
   "scripts": {
     "cy-open": "cypress open",
     "cy:run": "cypress run"

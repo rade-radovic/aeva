@@ -1,3 +1,4 @@
 {
-    "baseUrl": "https://aeva.vivifyideas.com/"
+    "baseUrl": "https://aeva.vivifyideas.com/",
+    "chromeWebSecurity": false
 }

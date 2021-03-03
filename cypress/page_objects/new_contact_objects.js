@@ -1,5 +1,3 @@
-import { contactSettings } from "./contact_settings_object"
-
 class NewContact {
 
     get newContactButton(){ 
@@ -31,8 +29,7 @@ class NewContact {
         this.name.type(name)
         this.phoneNumber.type(phone)
         this.email.type(email)
-        this.contactOwner.type(contactOwner)
-        this.submit.click()
+        this.contactOwner.type('{enter}')
     }
 
 }

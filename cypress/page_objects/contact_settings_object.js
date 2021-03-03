@@ -33,7 +33,7 @@ class ContactSettings {
     }
 
     get deleteField() {
-        return cy.get("ul > span > svg[data-icon='delete']")
+        return cy.get(".ant-list-items > span:nth-of-type(1) > svg > path")
     }
 
     get FieldListItem() {
