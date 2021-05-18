@@ -12,39 +12,36 @@ describe('Contact Settings', () => {
 
     beforeEach("Login", () => {
         cy.visit('/')
-        // cy.login(Data.Login.Email, Data.Login.Password)
-        cy.request({
-            method: 'POST',
-            url: 'https://aeva-api.vivifyideas.com/api/v1/login/',
-            body:
-            {
-                username: Data.Login.Email,
-                password: Data.Login.Password,
-            }
-        }).its('body').then((responseBody) => {
-            window.localStorage.setItem('token', JSON.stringify(responseBody));
+        authLogin.login(Data.Login.Email, Data.Login.Password)
+        // cy.request({
+        //     method: 'POST',
+        //     url: 'https://aeva-api.vivifyideas.com/api/v1/login/',
+        //     body:
+        //     {
+        //         username: Data.Login.Email,
+        //         password: Data.Login.Password,
+        //     }
+        // }).its('body').then((responseBody) => {
+        //     window.localStorage.setItem('token', JSON.stringify(responseBody));
             // console.log(JSON.stringify(responseBody))
             
-        })
+        // })
     })
 
     it.only('Create a custom field', () =>{
-        console.log(window.localStorage.getItem('token'))
-        cy.visit('/')
-        cy.wait(5000)
-        // cy.intercept('POST', 'https://aeva-api.vivifyideas.com/api/v1/contact-settings/', 
-        // (req) =>{
-        // }).as('succesfullNewCustomField')
-        // contactSettings.newCustomField(Data.ContactSettings.TextFieldName)
-        // cy.wait('@succesfullNewCustomField').then((interception) => {
-        //     var fieldExist = false;
-        //     for(var i = 0; i < interception.response.body.length; i++){
-        //         if(interception.response.body[i].name === Data.ContactSettings.TextFieldName){
-        //             fieldExist = true;
-        //         }
-        //     }
-        //     expect(fieldExist).to.be.true;
-        // })
+        cy.intercept('POST', 'https://aeva-api.vivifyideas.com/api/v1/contact-settings/', 
+        (req) =>{
+        }).as('succesfullNewCustomField')
+        contactSettings.newCustomField(Data.ContactSettings.TextFieldName)
+        cy.wait('@succesfullNewCustomField').then((interception) => {
+            var fieldExist = false;
+            for(var i = 0; i < interception.response.body.length; i++){
+                if(interception.response.body[i].name === Data.ContactSettings.TextFieldName){
+                    fieldExist = true;
+                }
+            }
+            expect(fieldExist).to.be.true;
+        })
     })
 
     it('Spaces for custom field name', () => {

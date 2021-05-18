@@ -19,28 +19,28 @@ describe('New Contact', () => {
 
     it("Create new Contact", () => {
         
-        // cy.intercept('POST', 'https://aeva-api.vivifyideas.com/api/v1/contacts/').as('successfulNewContact')
-        // newContact.createNewContact(Data.NewContact.Name, Data.NewContact.Phone, Data.NewContact.Email, Data.NewContact.ContactOwner)
-        newContact.name.type(Data.NewContact.Name)
-        newContact.phoneNumber.type(Data.NewContact.Phone)
-        newContact.email.type(Data.NewContact.Email)
-        newContact.contactOwner.type('dfdf')
+        cy.intercept('POST', 'https://aeva-api.vivifyideas.com/api/v1/contacts/').as('successfulNewContact')
+        newContact.createNewContact(Data.NewContact.Name, Data.NewContact.Phone, Data.NewContact.Email)
+        // newContact.name.type(Data.NewContact.Name)
+        // newContact.phoneNumber.type(Data.NewContact.Phone)
+        // newContact.email.type(Data.NewContact.Email)
+        // newContact.contactOwner.type('dfdf')
         // newContact.contactOwner.type('{enter}')
         // newContact.contactOwner.then(($nav) => {
         //     cy.wrap($nav).type('{enter}')
         // }) 
         // cy.wrap('iframe[class="spec-iframe"]').find(newContact.submit).click()
         
-        newContact.submit.focus().type("{enter}");
+        // newContact.submit.focus().type("{enter}");
      
         
-        // cy.wait('@successfulNewContact').then((interception) => {
-        //     cy.log(interception)
-        //     expect(interception.response.statusCode).to.equal(201); 
-        //     expect(interception.response.body.name).to.equal(Data.NewContact.Name)
-        //     expect(interception.response.body.phone_number).to.equal(Data.NewContact.Phone)
-        //     console.log(interception.response.body)
-        // })
+        cy.wait('@successfulNewContact').then((interception) => {
+            cy.log(interception)
+            expect(interception.response.statusCode).to.equal(201); 
+            expect(interception.response.body.name).to.equal(Data.NewContact.Name)
+            expect(interception.response.body.phone_number).to.equal(Data.NewContact.Phone)
+            console.log(interception.response.body)
+        })
         
     })
 

@@ -25,11 +25,11 @@ class NewContact {
         return cy.get("button[class='ant-btn']")
     }
 
-    createNewContact(name, phone, email, contactOwner) {
+    createNewContact(name, phone, email) {
         this.name.type(name)
         this.phoneNumber.type(phone)
         this.email.type(email)
-        this.contactOwner.type('{enter}')
+        this.submit.click({force : true})
     }
 
 }

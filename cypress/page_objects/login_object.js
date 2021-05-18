@@ -18,6 +18,19 @@ class AuthLogin{
         return cy.get('div:nth-of-type(3) .ant-form-item-control-input-content')
     }
 
+    get profileIconInitials () {
+        return cy.get(".nav-right > .ant-menu > .ant-menu-item")
+    }
+
+    get logoutButton () {
+        return cy.get ("li[class='ant-dropdown-menu-item']")
+    }
+
+    logout () {
+        this.profileIconInitials.click({ force: true });
+        this.logoutButton.should('be.visible').click();
+    }
+
     login(email, password) {
         this.email.type(email)
         this.password.type(password)

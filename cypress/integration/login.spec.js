@@ -96,13 +96,13 @@ describe('Login', () => {
         })
     })
 
-    it('logout', ()=> {
+    it.only('logout', ()=> {
         cy.intercept('POST', ' https://aeva-api.vivifyideas.com/api/v1/logout/', 
         (req) =>{
         }).as('succesfullLogout')
         authLogin.login(Data.Login.Email, Data.Login.Password)
-        contacts.logoutButton.click()
         authLogin.loginTitle.should('be.visible')
+        authLogin.logout();
         cy.wait('@succesfullLogout').then((interception) => {
             expect(interception.response.statusCode).to.equal(204);
         })
