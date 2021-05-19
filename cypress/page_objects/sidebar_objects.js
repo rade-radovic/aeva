@@ -40,12 +40,7 @@ class Sidebar {
         return cy.get("a[href='/dashboard/settings']") 
     }
 
-    movePiece (title, id, x, y) {
-        cy.get(`div[data-rbd-drag-handle-draggable-id='${title}${id}']`)
-        .trigger('mousedown', { which: 1 })
-        .trigger('mousemove', { clientX: x, clientY: y })
-        .trigger('mouseup', { force: true })
-    }
+   
 
 
 

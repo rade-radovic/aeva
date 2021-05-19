@@ -63,7 +63,7 @@ class ContactSettings {
         .trigger('mousedown', { which: 1 })
         .trigger('mousemove', { clientX: x, clientY: y })
         .trigger('mouseup', { force: true })
-      }
+    }
 
 }
 
