@@ -37,17 +37,27 @@ describe ('funnels', () => {
 
     it('add new funnel', () => {
         cy.intercept('POST', ' https://aeva-api.vivifyideas.com/api/v1/funnels/', 
-        (req) =>{
+        () =>{
         }).as('succesfullAddFunnel')
-        funnels.addFunnel.click()
-        funnels.funnelTitle.should('be.visible').type(funnelData.randomTitle)
-        funnels.add.click()
+        funnels.addNewFunnel(funnelData.randomTitle)
         cy.wait('@succesfullAddFunnel').then((interception) => {
             expect(interception.response.statusCode).to.equal(201);
             expect(interception.response.body.name).to.equal(funnelData.randomTitle)
             funnelID = interception.response.body.id;
         })
     })
+
+    it('add new funnel, emtpty funnel name', () => {
+        funnels.addFunnel.click()
+        funnels.add.click()
+        funnels.errorMessage.contains("Funnel title can't be blank!").should('be.visible')
+    })
+
+    it('add new funnel, spaces for funnel title', () => {
+        funnels.addNewFunnel("     ")
+        funnels.errorMessage.contains("Funnel title can't be blank!").should('be.visible')
+    })
+
 
     // it('add contact', () => {
     //     cy.intercept('POST', 'https://aeva-api.vivifyideas.com/api/v1/contacts/', () => {
@@ -85,24 +95,44 @@ describe ('funnels', () => {
             expect(response.body.phone_number).to.equal(Data.NewContact.Phone)
             expect(response.body.email).to.equal(funnelData.randomEmail)
             expect(response.body.status.id).to.equal(funnelID)
+            contactID = response.body.id;
             id = response.body.id;
             
-        }).as('successfullAddContact')
-        let as = cy.get('@successfullAddContact').then((interception) => {
-            return interception.body.id;
         })
+        //.as('successfullAddContact')
+        // let as = cy.get('@successfullAddContact').then((interception) => {
+        //     return interception.body.id;
+        // })
 
         
+        // cy.intercept('GET', `https://aeva-api.vivifyideas.com/api/v1/contacts/${id}/`, () => {
+        // }).as('successfulGetContact')
+        // funnels.contact(id).should('be.visible').click()
+        // cy.wait('@successfulGetContact').then((interception) => {
+        //     expect(interception.response.body.name).to.equal(funnelData.randomFirstName)
+        //     expect(interception.response.body.phone_number).to.equal(Data.NewContact.Phone)
+        //     expect(interception.response.body.email).to.equal(funnelData.randomEmail)
+        // })
+
         
-        
-        cy.intercept('GET', `https://aeva-api.vivifyideas.com/api/v1/contacts/${id}/`, () => {
-        }).as('successfulGetContact')
-        funnels.contact(id).should('be.visible').click()
-        cy.wait('@successfulGetContact').then((interception) => {
-            expect(interception.response.body.name).to.equal(funnelData.randomFirstName)
-            expect(interception.response.body.phone_number).to.equal(Data.NewContact.Phone)
-            expect(interception.response.body.email).to.equal(funnelData.randomEmail)
+
+    })
+
+    it('remove contact', () => {
+        funnels.contact(contactID).should('be.visible')
+        console.log(funnels.contact(contactID))
+        funnels.removeContactfunction(contactID)
+        cy.request ({
+            method :'GET', 
+            url : `https://aeva-api.vivifyideas.com/api/v1/contacts/${contactID}/`,
+            headers : {
+                authorization : `Bearer ${token}`
+            }
+        }).then((response) => {
+            expect(response.body.status).to.equal(null)
         })
+        funnels.contact(contactID).should('not.be.visible')
+        // expect(funnels.contact(contactID)).to.not.be.visible
     })
 
 
