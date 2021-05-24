@@ -74,9 +74,8 @@ describe ('funnels', () => {
     // it('reorder funnel', () => {
     //     funnels.movePiece(funnelData.randomTitle, funnelID, 400, 180)
     // })
-
     it('add contact BE', () => {
-        let id;
+        
         cy.request ({
             method :'POST', 
             url : `https://aeva-api.vivifyideas.com/api/v1/contacts/`,
@@ -96,26 +95,27 @@ describe ('funnels', () => {
             expect(response.body.email).to.equal(funnelData.randomEmail)
             expect(response.body.status.id).to.equal(funnelID)
             contactID = response.body.id;
-            id = response.body.id;
             
         })
-        //.as('successfullAddContact')
-        // let as = cy.get('@successfullAddContact').then((interception) => {
-        //     return interception.body.id;
-        // })
 
-        
-        // cy.intercept('GET', `https://aeva-api.vivifyideas.com/api/v1/contacts/${id}/`, () => {
-        // }).as('successfulGetContact')
-        // funnels.contact(id).should('be.visible').click()
-        // cy.wait('@successfulGetContact').then((interception) => {
-        //     expect(interception.response.body.name).to.equal(funnelData.randomFirstName)
-        //     expect(interception.response.body.phone_number).to.equal(Data.NewContact.Phone)
-        //     expect(interception.response.body.email).to.equal(funnelData.randomEmail)
-        // })
+        contactID;
 
+        //for some reason, this method of getting the Contact id is not working.
+        //it is undefined in the intercept below, but it works in the next It.
         
 
+        
+        cy.intercept('GET', `https://aeva-api.vivifyideas.com/api/v1/contacts/${contactID}/`, () => {
+        }).as('successfulGetContact')
+        funnels.contact(contactID).should('be.visible').click()
+        cy.wait('@successfulGetContact').then((interception) => {
+            expect(interception.response.body.name).to.equal(funnelData.randomFirstName)
+            expect(interception.response.body.phone_number).to.equal(Data.NewContact.Phone)
+            expect(interception.response.body.email).to.equal(funnelData.randomEmail)
+        })
+
+        
+        
     })
 
     it('remove contact', () => {
@@ -131,23 +131,22 @@ describe ('funnels', () => {
         }).then((response) => {
             expect(response.body.status).to.equal(null)
         })
-        funnels.contact(contactID).should('not.be.visible')
-        // expect(funnels.contact(contactID)).to.not.be.visible
+        
     })
 
 
 
-    // it('rename funnel FE', () => {
-    //     cy.intercept('PUT', `https://aeva-api.vivifyideas.com/api/v1/funnels/${funnelID}/`, 
-    //     () =>{
-    //     }).as('succesfullRenameFunnel')
-    //     funnels.funnelOptions(funnelData.randomTitle, funnelID).click()
-    //     funnels.rename.click()
-    //     funnels.renameField.clear().type(`${funnelData.randomTitle2}{enter}`)
-    //     cy.wait("@succesfullRenameFunnel").then((interception) => {
-    //         expect(interception.response.body.name).to.equal(funnelData.randomTitle2)
-    //     })
-    // })
+    it('rename funnel FE', () => {
+        cy.intercept('PUT', `https://aeva-api.vivifyideas.com/api/v1/funnels/${funnelID}/`, 
+        () =>{
+        }).as('succesfullRenameFunnel')
+        funnels.funnelOptions(funnelData.randomTitle, funnelID).click()
+        funnels.rename.click()
+        funnels.renameField.clear().type(`${funnelData.randomTitle2}{enter}`)
+        cy.wait("@succesfullRenameFunnel").then((interception) => {
+            expect(interception.response.body.name).to.equal(funnelData.randomTitle2)
+        })
+    })
 
     it('delete contact', () =>{
         cy.request ({

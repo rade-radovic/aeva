@@ -32,6 +32,8 @@ describe('New Contact', () => {
         // cy.wrap('iframe[class="spec-iframe"]').find(newContact.submit).click()
         
         // newContact.submit.focus().type("{enter}");
+
+        //for some reason after we perform the click on the submit button the request is never sent
      
         
         cy.wait('@successfulNewContact').then((interception) => {

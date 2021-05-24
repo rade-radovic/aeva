@@ -10,6 +10,7 @@ class ContactSettings {
 
     get text() {
         return cy.get("li[class='ant-dropdown-menu-item ant-dropdown-menu-item-only-child']").eq(0)
+        // cy.data = 'textTitleId'
     }
 
     get dropdown() {
